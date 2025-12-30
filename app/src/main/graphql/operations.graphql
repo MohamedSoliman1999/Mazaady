@@ -1,0 +1,37 @@
+
+query GetLaunches {
+    launches {
+        hasMore
+        cursor
+        launches {
+            id
+            site
+            mission {
+                name
+                missionPatch(size: LARGE)
+            }
+            rocket {
+                id
+                name
+                type
+            }
+        }
+    }
+}
+
+query GetLaunchDetail($id: ID!) {
+    launch(id: $id) {
+        id
+        site
+        mission {
+            name
+            missionPatch(size: LARGE)
+        }
+        rocket {
+            id
+            name
+            type
+        }
+        isBooked
+    }
+}

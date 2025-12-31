@@ -245,7 +245,7 @@ Gradle: 8.1+
 1️⃣ **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/spacex-launches-app.git
+git clone https://github.com/MohamedSoliman1999/spacex-launches-app.git
 cd spacex-launches-app
 ```
 
@@ -434,7 +434,7 @@ Contributions are **welcome**! Here's how you can help:
 
 ## 🐛 Known Issues
 
-> 🔍 No major issues currently. If you find any, please [report them here](https://github.com/yourusername/spacex-launches-app/issues).
+> 🔍 No major issues currently. If you find any, please [report them here](https://github.com/MohamedSoliman1999/spacex-launches-app/issues).
 
 ---
 
@@ -443,7 +443,7 @@ Contributions are **welcome**! Here's how you can help:
 ```
 MIT License
 
-Copyright (c) 2024 [Your Name]
+Copyright (c) 2024 [Mohamed Soliman]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -468,11 +468,11 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 <div align="center">
 
-**Your Name**
+**Mohamed Soliman**
 
-[![GitHub](https://img.shields.io/badge/GitHub-@yourusername-181717?style=for-the-badge&logo=github)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Your%20Name-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourprofile)
-[![Email](https://img.shields.io/badge/Email-your.email@example.com-EA4335?style=for-the-badge&logo=gmail)](mailto:your.email@example.com)
+[![GitHub](https://img.shields.io/badge/GitHub-@MohamedSoliman1999-181717?style=for-the-badge&logo=github)](https://github.com/MohamedSoliman1999)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mohamed-Soliman-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourprofile)
+[![Email](https://img.shields.io/badge/Email-mohamedsoliman001122s@gmail.com-EA4335?style=for-the-badge&logo=gmail)](mailto:your.email@example.com)
 
 </div>
 
@@ -504,8 +504,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 **Need Help?**
 
-[![Issues](https://img.shields.io/badge/Issues-Report%20Bug-red?style=for-the-badge&logo=github)](https://github.com/yourusername/spacex-launches-app/issues)
-[![Discussions](https://img.shields.io/badge/Discussions-Ask%20Question-blue?style=for-the-badge&logo=github)](https://github.com/yourusername/spacex-launches-app/discussions)
+[![Issues](https://img.shields.io/badge/Issues-Report%20Bug-red?style=for-the-badge&logo=github)](https://github.com/MohamedSoliman1999/spacex-launches-app/issues)
+[![Discussions](https://img.shields.io/badge/Discussions-Ask%20Question-blue?style=for-the-badge&logo=github)](https://github.com/MohamedSoliman1999/spacex-launches-app/discussions)
 
 </div>
 
@@ -515,12 +515,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ### ⭐ Star this repository if you find it helpful!
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/spacex-launches-app?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/spacex-launches-app?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/yourusername/spacex-launches-app?style=social)
+![GitHub stars](https://img.shields.io/github/stars/MohamedSoliman1999/spacex-launches-app?style=social)
+![GitHub forks](https://img.shields.io/github/forks/MohamedSoliman1999/spacex-launches-app?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/MohamedSoliman1999/spacex-launches-app?style=social)
 
 ---
 
-**Made with ❤️ and ☕ by [Your Name]**
+**Made with ❤️ and ☕ by [Mohamed Soliman]**
 
 </div>

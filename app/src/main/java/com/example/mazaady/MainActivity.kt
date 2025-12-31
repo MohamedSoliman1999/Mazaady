@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.mazaady.presentation.navigation.LaunchesNavGraph
 import com.example.mazaady.ui.theme.MazaadyTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +22,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MazaadyTheme {
                 Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    val navController = rememberNavController()
+                    LaunchesNavGraph(
+                        navController = navController,
+                        modifier = Modifier.fillMaxSize().padding(innerPadding)
                     )
                 }
             }

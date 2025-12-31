@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mazaady.domain.model.LaunchDetail
-import com.example.mazaady.presentation.component.DetailTopBar
+import com.example.mazaady.presentation.component.LaunchesTopBar
 import com.example.mazaady.presentation.component.ErrorView
 import com.example.mazaady.presentation.component.InfoSection
 import com.example.mazaady.presentation.component.LoadingIndicator
@@ -75,7 +75,7 @@ private fun LaunchDetailContent(
             .fillMaxSize()
             .background(colors.background)
     ) {
-        DetailTopBar(
+        LaunchesTopBar(
             modifier = Modifier.wrapContentHeight(),
             title = "Launch Detail (id: $launchId)",
             backgroundColor = colors.topBar,

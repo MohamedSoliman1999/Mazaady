@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mazaady.domain.model.Launch
-import com.example.mazaady.presentation.component.DetailTopBar
+import com.example.mazaady.presentation.component.LaunchesTopBar
 import com.example.mazaady.presentation.component.EmptyStateView
 import com.example.mazaady.presentation.component.ErrorView
 import com.example.mazaady.presentation.component.LaunchListItem
@@ -70,7 +70,7 @@ private fun LaunchesListContent(
             .fillMaxSize()
             .background(colors.background)
     ) {
-        DetailTopBar(
+        LaunchesTopBar(
             modifier = Modifier.height(100.dp),
             title = "Launches",
             backgroundColor = colors.topBar,

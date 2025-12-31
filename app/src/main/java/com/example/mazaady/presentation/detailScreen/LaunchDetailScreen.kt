@@ -9,8 +9,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mazaady.domain.model.LaunchDetail
@@ -74,16 +76,20 @@ private fun LaunchDetailContent(
             .background(colors.background)
     ) {
         DetailTopBar(
+            modifier = Modifier.wrapContentHeight(),
             title = "Launch Detail (id: $launchId)",
             backgroundColor = colors.topBar,
             contentColor = colors.onTopBar,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Normal,
         )
 
         when {
             state.isLoading -> {
                 LoadingIndicator(color = colors.onSurface)
             }
+
             state.error != null -> {
                 ErrorView(
                     message = state.error,
@@ -91,6 +97,7 @@ private fun LaunchDetailContent(
                     textColor = colors.onSurface
                 )
             }
+
             state.launchDetail != null -> {
                 DetailContentBody(
                     detail = state.launchDetail,
@@ -106,70 +113,79 @@ private fun DetailContentBody(
     detail: LaunchDetail,
     colors: LaunchesColorScheme
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
 
         // Mission Patch
         MissionPatch(patchUrl = detail.missionPatch)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
 
-        // Rocket Info
-        InfoSection(
-            title = "Rocket",
-            items = buildList {
-                detail.rocketName?.let { add("NAME" to it) }
-                detail.rocketType?.let { add("TYPE" to it) }
-                detail.rocketId?.let { add("ID" to it) }
-            },
-            titleColor = colors.onSurface,
-            labelColor = colors.onSurfaceVariant,
-            valueColor = colors.onSurface
-        )
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Mission Info
-        detail.missionName?.let { missionName ->
+            // Rocket Info
             InfoSection(
-                title = "Mission:",
-                items = listOf("NAME" to missionName),
+                title = "Rocket",
+                items = buildList {
+                    detail.rocketName?.let { add("NAME" to it) }
+                    detail.rocketType?.let { add("TYPE" to it) }
+                    detail.rocketId?.let { add("ID" to it) }
+                },
                 titleColor = colors.onSurface,
                 labelColor = colors.onSurfaceVariant,
                 valueColor = colors.onSurface
             )
-            Spacer(modifier = Modifier.height(24.dp))
-        }
 
-        // Site Info
-        detail.site?.let { site ->
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Mission Info
+            detail.missionName?.let { missionName ->
+                InfoSection(
+                    title = "Mission:",
+                    items = listOf("NAME" to missionName),
+                    titleColor = colors.onSurface,
+                    labelColor = colors.onSurfaceVariant,
+                    valueColor = colors.onSurface
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            // Site Info
+            detail.site?.let { site ->
+                InfoSection(
+                    title = "Site:",
+                    items = listOf("" to site),
+                    titleColor = colors.onSurface,
+                    labelColor = colors.onSurfaceVariant,
+                    valueColor = colors.onSurface
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            // Booking Status
             InfoSection(
-                title = "Site:",
-                items = listOf("" to site),
+                title = "Status:",
+                items = listOf("BOOKED" to if (detail.isBooked) "Yes" else "No"),
                 titleColor = colors.onSurface,
                 labelColor = colors.onSurfaceVariant,
                 valueColor = colors.onSurface
             )
-            Spacer(modifier = Modifier.height(24.dp))
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
-
-        // Booking Status
-        InfoSection(
-            title = "Status:",
-            items = listOf("BOOKED" to if (detail.isBooked) "Yes" else "No"),
-            titleColor = colors.onSurface,
-            labelColor = colors.onSurfaceVariant,
-            valueColor = colors.onSurface
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
     }
+
 }
 
 @Preview(name = "Launch Detail - Light with Data", showSystemUi = true)

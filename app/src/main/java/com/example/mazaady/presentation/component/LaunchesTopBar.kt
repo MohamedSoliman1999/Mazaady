@@ -26,20 +26,6 @@ fun LaunchesTopBar(
             .height(100.dp)
             .background(backgroundColor)
     ) {
-        // Status bar spacer with indicator dot
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(38.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(5.dp)
-                    .background(AppColors.IndicatorDot, CircleShape)
-            )
-        }
-
         Spacer(modifier = Modifier.weight(1f))
 
         // Title

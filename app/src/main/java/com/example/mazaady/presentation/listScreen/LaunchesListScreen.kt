@@ -8,17 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mazaady.domain.model.Launch
+import com.example.mazaady.presentation.component.DetailTopBar
 import com.example.mazaady.presentation.component.EmptyStateView
 import com.example.mazaady.presentation.component.ErrorView
 import com.example.mazaady.presentation.component.LaunchListItem
-import com.example.mazaady.presentation.component.LaunchesTopBar
 import com.example.mazaady.presentation.component.LoadingIndicator
-import com.example.mazaady.ui.theme.AppColors
 import com.example.mazaady.ui.theme.LaunchesColorScheme
 import com.example.mazaady.ui.theme.launchesColorScheme
 import kotlinx.coroutines.flow.collectLatest
@@ -69,10 +70,15 @@ private fun LaunchesListContent(
             .fillMaxSize()
             .background(colors.background)
     ) {
-        LaunchesTopBar(
+        DetailTopBar(
+            modifier = Modifier.height(100.dp),
             title = "Launches",
-            backgroundColor = AppColors.Black,
-            titleColor = AppColors.White
+            backgroundColor = colors.topBar,
+            contentColor = colors.onTopBar,
+            isBackButtonEnabled = false,
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold,
+            isWideTopBar=true
         )
 
         when {

@@ -20,17 +20,7 @@ A modern Android application that displays SpaceX launches using GraphQL API. Bu
 <div align="center">
 
 <!-- METHOD 1: GitHub Hosted Video (Upload video via issue/PR drag-drop, then paste URL) -->
-https://github.com/user-attachments/assets/your-video-id.mp4
-
-<!-- METHOD 2: YouTube Video with Custom Thumbnail -->
-<!--
-[![SpaceX Launches App Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
--->
-
-<!-- METHOD 3: GIF Animation -->
-<!--
-![App Demo](demo/app_demo.gif)
--->
+https://github.com/user-attachments/assets/6de23c5e-368d-4c10-b1bd-3a42f2f3d92b
 
 </div>
 
@@ -41,10 +31,10 @@ https://github.com/user-attachments/assets/your-video-id.mp4
 <div align="center">
 
 ### Light Theme
-<img src="screenshots/launches_light.png" width="250" alt="Launches Light"/> <img src="screenshots/detail_light.png" width="250" alt="Detail Light"/> <img src="screenshots/loading_state.png" width="250" alt="Loading"/>
+<img src="screenshots/launches_light.jpeg" width="250" alt="Launches Light"/> <img src="screenshots/detail_light.jpeg" width="250" alt="Detail Light"/> 
 
 ### Dark Theme
-<img src="screenshots/launches_dark.png" width="250" alt="Launches Dark"/> <img src="screenshots/detail_dark.png" width="250" alt="Detail Dark"/> <img src="screenshots/error_state.png" width="250" alt="Error"/>
+<img src="screenshots/launches_dark.jpeg" width="250" alt="Launches Dark"/> <img src="screenshots/detail_dark.jpeg" width="250" alt="Detail Dark"/> <img src="screenshots/error_state.png" width="250" alt="Error"/>
 
 </div>
 

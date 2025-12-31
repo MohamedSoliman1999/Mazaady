@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -53,4 +54,34 @@ fun MazaadyTheme(
       typography = Typography,
       content = content
     )
+}
+data class LaunchesColorScheme(
+    val background: Color,
+    val surface: Color,
+    val onSurface: Color,
+    val onSurfaceVariant: Color,
+    val topBar: Color,
+    val onTopBar: Color
+)
+@Composable
+fun launchesColorScheme(darkTheme: Boolean = isSystemInDarkTheme()): LaunchesColorScheme {
+    return if (darkTheme) {
+        LaunchesColorScheme(
+            background = AppColors.DarkBackground,
+            surface = AppColors.DarkSurface,
+            onSurface = AppColors.DarkOnSurface,
+            onSurfaceVariant = AppColors.DarkOnSurfaceVariant,
+            topBar = AppColors.DarkTopBar,
+            onTopBar = AppColors.White
+        )
+    } else {
+        LaunchesColorScheme(
+            background = AppColors.LightBackground,
+            surface = AppColors.LightSurface,
+            onSurface = AppColors.LightOnSurface,
+            onSurfaceVariant = AppColors.LightOnSurfaceVariant,
+            topBar = AppColors.LightTopBar,
+            onTopBar = AppColors.Black
+        )
+    }
 }

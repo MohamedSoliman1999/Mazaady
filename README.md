@@ -471,7 +471,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 **Mohamed Soliman**
 
 [![GitHub](https://img.shields.io/badge/GitHub-@MohamedSoliman1999-181717?style=for-the-badge&logo=github)](https://github.com/MohamedSoliman1999)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mohamed-Soliman-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/mohamed-ismail-soliman/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Soliman-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/mohamed-ismail-soliman/)
 [![Email](https://img.shields.io/badge/Email-mohamedsoliman001122s@gmail.com-EA4335?style=for-the-badge&logo=gmail)](mohamedsoliman001122s@gmail.com)
 
 </div>

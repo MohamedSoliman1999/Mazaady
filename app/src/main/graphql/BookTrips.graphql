@@ -1,0 +1,29 @@
+mutation BookTrips($launchIds: [ID]!) {
+    bookTrips(launchIds: $launchIds) {
+        success
+        message
+        launches {
+            id
+            mission {
+                name
+            }
+        }
+    }
+}
+
+mutation CancelTrip($launchId: ID!) {
+    cancelTrip(launchId: $launchId) {
+        success
+        message
+        launches {
+            id
+        }
+    }
+}
+
+mutation Login($email: String!) {
+    login(email: $email) {
+        id
+        token
+    }
+}

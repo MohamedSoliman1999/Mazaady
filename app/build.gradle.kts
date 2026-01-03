@@ -88,4 +88,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 //    Image Loader
     implementation(libs.coil.compose)
+
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
 }

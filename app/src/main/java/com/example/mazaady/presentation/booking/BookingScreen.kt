@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,10 +36,6 @@ import com.example.mazaady.ui.theme.LaunchesColorScheme
 import com.example.mazaady.ui.theme.launchesColorScheme
 import kotlinx.coroutines.flow.collectLatest
 
-/**
- * Main composable for the Booking Screen
- * Handles booking trips with login and launch selection
- */
 @Composable
 fun BookingScreen(
     onBackClick: () -> Unit,
@@ -50,12 +48,8 @@ fun BookingScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is BookingEffect.NavigateBack -> onBackClick()
-                is BookingEffect.ShowSuccess -> {
-                    // Success is shown via dialog in UI
-                }
-                is BookingEffect.ShowError -> {
-                    // Error is shown in UI state
-                }
+                is BookingEffect.ShowSuccess -> {}
+                is BookingEffect.ShowError -> {}
             }
         }
     }
@@ -68,14 +62,10 @@ fun BookingScreen(
     )
 }
 
-/**
- * Content composable for Booking Screen
- * Separated for better preview support
- */
 @Composable
 private fun BookingScreenContent(
     state: BookingState,
-    colors: LaunchesColorScheme,
+    colors:LaunchesColorScheme,
     onBackClick: () -> Unit,
     onIntent: (BookingIntent) -> Unit
 ) {
@@ -85,7 +75,6 @@ private fun BookingScreenContent(
                 .fillMaxSize()
                 .background(colors.background)
         ) {
-            // Top Navigation Bar
             LaunchesTopBar(
                 title = "Book Launch",
                 backgroundColor = colors.topBar,
@@ -93,7 +82,6 @@ private fun BookingScreenContent(
                 onBackClick = onBackClick
             )
 
-            // Scrollable Content
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -103,30 +91,72 @@ private fun BookingScreenContent(
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Header with icon and title
-                HeaderSection(
-                    isLoggedIn = state.isLoggedIn,
-                    colors = colors
+                // Header
+                Text(
+                    text = "🚀",
+                    fontSize = 64.sp
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = if (state.isLoggedIn) "Book Your Space Journey" else "Login to Continue",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.onSurface
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = if (state.isLoggedIn) {
+                        "Enter launch IDs separated by commas"
+                    } else {
+                        "Enter your email to get started"
+                    },
+                    fontSize = 14.sp,
+                    color = colors.onSurfaceVariant
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Main Form Card
+                // Error Message Display (NEW)
+                if (state.error != null && state.error.isNotEmpty()) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Red.copy(alpha = 0.1f)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(text = "❌", fontSize = 24.sp)
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = state.error,
+                                color = Color.Red,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                }
+
+                // Form Card
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor = colors.surface
                     ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 2.dp
-                    )
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp)
-                    ) {
+                    Column(modifier = Modifier.padding(20.dp)) {
                         if (!state.isLoggedIn) {
-                            // Show login form
-                            LoginForm(
+                            // Login Form
+                            LoginFormSection(
                                 email = state.email,
                                 emailError = state.emailError,
                                 isLoading = state.isLoading,
@@ -135,8 +165,8 @@ private fun BookingScreenContent(
                                 onLoginClick = { onIntent(BookingIntent.OnLoginClick) }
                             )
                         } else {
-                            // Show booking form
-                            BookingForm(
+                            // Booking Form
+                            BookingFormSection(
                                 email = state.email,
                                 launchIds = state.selectedLaunchIds.joinToString(", "),
                                 isLoading = state.isLoading,
@@ -152,7 +182,7 @@ private fun BookingScreenContent(
             }
         }
 
-        // Success Dialog Overlay
+        // Success Dialog
         if (state.successMessage != null) {
             SuccessDialog(
                 title = "Success!",
@@ -165,72 +195,16 @@ private fun BookingScreenContent(
     }
 }
 
-/**
- * Header section with emoji, title and description
- */
 @Composable
-private fun HeaderSection(
-    isLoggedIn: Boolean,
-    colors: LaunchesColorScheme
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Large emoji icon
-        Text(
-            text = "🚀",
-            fontSize = 64.sp
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Main title
-        Text(
-            text = if (isLoggedIn) "Book Your Space Journey" else "Login to Continue",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = colors.onSurface
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Subtitle/description
-        Text(
-            text = if (isLoggedIn) {
-                "Enter launch IDs separated by commas"
-            } else {
-                "Enter your email to get started"
-            },
-            fontSize = 14.sp,
-            color = colors.onSurfaceVariant
-        )
-    }
-}
-
-/**
- * Login form component
- * Shows email input and login button
- */
-@Composable
-private fun LoginForm(
+private fun LoginFormSection(
     email: String,
     emailError: String?,
     isLoading: Boolean,
-    colors:LaunchesColorScheme,
+    colors: LaunchesColorScheme,
     onEmailChange: (String) -> Unit,
     onLoginClick: () -> Unit
 ) {
     Column {
-        // Field label
-        Text(
-            text = "Email Address",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = colors.onSurface,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        // Email input field
         AppTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -242,11 +216,7 @@ private fun LoginForm(
             errorMessage = emailError,
             enabled = !isLoading,
             leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Email,
-                    contentDescription = null,
-                    tint = colors.onSurfaceVariant
-                )
+                Icon(imageVector = Icons.Default.Email, contentDescription = null)
             },
             config = AppTextFieldConfig(
                 backgroundColor = colors.background,
@@ -258,22 +228,17 @@ private fun LoginForm(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Login button
         AppButton(
             text = "Login",
             onClick = onLoginClick,
             isLoading = isLoading,
-            enabled = email.isNotEmpty() && !isLoading
+            enabled = email.isNotEmpty()
         )
     }
 }
 
-/**
- * Booking form component
- * Shows logged in user info, launch ID input, and book button
- */
 @Composable
-private fun BookingForm(
+private fun BookingFormSection(
     email: String,
     launchIds: String,
     isLoading: Boolean,
@@ -282,7 +247,7 @@ private fun BookingForm(
     onBookClick: () -> Unit
 ) {
     Column {
-        // Logged in user info
+        // Logged in info
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -297,30 +262,11 @@ private fun BookingForm(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
-                Text(
-                    text = "Logged in as:",
-                    fontSize = 12.sp,
-                    color = colors.onSurfaceVariant
-                )
-                Text(
-                    text = email,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colors.onSurface
-                )
+                Text(text = "Logged in as:", fontSize = 12.sp, color = colors.onSurfaceVariant)
+                Text(text = email, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.onSurface)
             }
         }
 
-        // Launch IDs field label
-        Text(
-            text = "Launch IDs",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = colors.onSurface,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        // Launch IDs input field
         AppTextField(
             value = launchIds,
             onValueChange = onLaunchIdsChange,
@@ -331,11 +277,7 @@ private fun BookingForm(
             enabled = !isLoading,
             maxLines = 2,
             leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.RocketLaunch,
-                    contentDescription = null,
-                    tint = colors.onSurfaceVariant
-                )
+                Icon(imageVector = Icons.Default.Flight, contentDescription = null)
             },
             config = AppTextFieldConfig(
                 backgroundColor = colors.background,
@@ -347,187 +289,20 @@ private fun BookingForm(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Helper text with icon
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "ℹ️",
-                fontSize = 12.sp
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = "Separate multiple launch IDs with commas",
-                fontSize = 12.sp,
-                color = colors.onSurfaceVariant
-            )
-        }
+        Text(
+            text = "ℹ️ Separate multiple IDs with commas",
+            fontSize = 12.sp,
+            color = colors.onSurfaceVariant,
+            modifier = Modifier.padding(start = 16.dp)
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Book button
         AppButton(
             text = "Book Trips",
             onClick = onBookClick,
             isLoading = isLoading,
-            enabled = launchIds.isNotEmpty() && !isLoading
+            enabled = launchIds.isNotEmpty()
         )
     }
-}
-
-// =============================================================================
-// PREVIEW FUNCTIONS
-// =============================================================================
-
-@Preview(name = "Booking - Initial State", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenInitial() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "",
-            isLoggedIn = false
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Login with Email", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenLoginWithEmail() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = false
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Login Error", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenLoginError() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "invalid",
-            emailError = "Invalid email format",
-            isLoggedIn = false
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Login Loading", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenLoginLoading() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = false,
-            isLoading = true
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Logged In", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenLoggedIn() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = true,
-            selectedLaunchIds = emptyList()
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - With Launch IDs", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenWithLaunchIds() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = true,
-            selectedLaunchIds = listOf("109", "110")
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Booking Loading", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenBookingLoading() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = true,
-            selectedLaunchIds = listOf("109", "110", "111"),
-            isLoading = true
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Dark Mode", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenDark() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "john.doe@spacex.com",
-            isLoggedIn = true,
-            selectedLaunchIds = listOf("109", "110", "111")
-        ),
-        colors = launchesColorScheme(darkTheme = true),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Success Dialog", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenSuccess() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "test@example.com",
-            isLoggedIn = true,
-            selectedLaunchIds = listOf("109", "110"),
-            successMessage = "Successfully booked 2 launches!"
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
-}
-
-@Preview(name = "Booking - Multiple Launch IDs", showSystemUi = true)
-@Composable
-private fun PreviewBookingScreenMultipleLaunches() {
-    BookingScreenContent(
-        state = BookingState(
-            email = "astronaut@nasa.gov",
-            isLoggedIn = true,
-            selectedLaunchIds = listOf("109", "110", "111", "112", "113")
-        ),
-        colors = launchesColorScheme(darkTheme = false),
-        onBackClick = {},
-        onIntent = {}
-    )
 }

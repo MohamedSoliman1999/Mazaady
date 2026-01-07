@@ -1,6 +1,7 @@
 package com.example.mazaady.di
 
 import com.apollographql.apollo.ApolloClient
+import com.example.mazaady.data.local.TokenManager
 import com.example.mazaady.data.remote.apollo.ApolloClientProvider
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,11 @@ object NetworkModule {
         apolloClientProvider: ApolloClientProvider
     ): ApolloClient {
         return apolloClientProvider.apolloClient
+    }
+
+    @Provides
+    @Singleton
+    fun provideTokenManager(): TokenManager {
+        return TokenManager()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mazaady.presentation.booking
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mazaady.domain.useCase.BookTripsUseCase
@@ -63,21 +64,25 @@ class BookingViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
+            Log.d("BookingViewModel", "Attempting login with email: $email")
+
             val result = loginUseCase(email)
 
             result.fold(
                 onSuccess = { loginResult ->
+                    Log.d("BookingViewModel", "Login successful! Token: ${loginResult.token}")
                     _state.update {
                         it.copy(
                             isLoading = false,
                             isLoggedIn = true,
-                            error = null
+                            error = null,
+                            successMessage = "Login successful! You can now book trips."
                         )
                     }
-                    _effect.emit(BookingEffect.ShowSuccess("Login successful!"))
                 },
                 onFailure = { error ->
                     val errorMessage = error.message ?: "Login failed"
+                    Log.e("BookingViewModel", "Login failed: $errorMessage", error)
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -110,32 +115,38 @@ class BookingViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
+            Log.d("BookingViewModel", "Attempting to book trips: $launchIds")
+
             val result = bookTripsUseCase(launchIds)
 
             result.fold(
                 onSuccess = { bookingResult ->
-                    val message = if (bookingResult.success) {
-                        bookingResult.message ?: "Booking successful!"
-                    } else {
-                        bookingResult.message ?: "Booking failed"
-                    }
-
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            successMessage = if (bookingResult.success) message else null,
-                            error = if (!bookingResult.success) message else null
-                        )
-                    }
+                    Log.d("BookingViewModel", "Booking response - Success: ${bookingResult.success}, Message: ${bookingResult.message}")
 
                     if (bookingResult.success) {
+                        val message = bookingResult.message ?: "Successfully booked ${launchIds.size} launch(es)!"
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                successMessage = message,
+                                error = null
+                            )
+                        }
                         _effect.emit(BookingEffect.ShowSuccess(message))
                     } else {
+                        val message = bookingResult.message ?: "Booking failed"
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = message
+                            )
+                        }
                         _effect.emit(BookingEffect.ShowError(message))
                     }
                 },
                 onFailure = { error ->
                     val errorMessage = error.message ?: "Booking failed"
+                    Log.e("BookingViewModel", "Booking failed: $errorMessage", error)
                     _state.update {
                         it.copy(
                             isLoading = false,

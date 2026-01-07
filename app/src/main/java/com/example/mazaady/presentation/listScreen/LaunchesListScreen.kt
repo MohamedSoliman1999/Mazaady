@@ -54,7 +54,10 @@ fun LaunchesListScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onBookingClick,
+                onClick = {
+                    viewModel.logout()
+                    onBookingClick.invoke()
+                },
                 containerColor = AppColors.IconCRS,
                 contentColor = Color.White,
                 elevation = FloatingActionButtonDefaults.elevation(

@@ -88,6 +88,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 //    Image Loader
     implementation(libs.coil.compose)
-
+//  icons
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
+//    encrypted shared preferences
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }

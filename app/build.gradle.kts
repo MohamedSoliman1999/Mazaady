@@ -89,7 +89,7 @@ dependencies {
 //    Image Loader
     implementation(libs.coil.compose)
 //  icons
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation(libs.androidx.compose.material.icons.extended)
 //    encrypted shared preferences
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation(libs.androidx.security.crypto)
 }

@@ -92,4 +92,18 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
 //    encrypted shared preferences
     implementation(libs.androidx.security.crypto)
+    // Room Database
+//    implementation(libs.androidx.room.runtime)
+//    implementation(libs.androidx.room.ktx)
+//    ksp(libs.androidx.room.compiler)
+//    implementation(libs.room.compiler)
+
+    val room_version = "2.8.4"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:${room_version}")
+    implementation("androidx.room:room-paging:${room_version}")
+    implementation("androidx.compose.material:material:1.5.0")
+// or your current version
 }

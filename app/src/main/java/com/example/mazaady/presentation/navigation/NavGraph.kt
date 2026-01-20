@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.mazaady.presentation.booking.BookingScreen
 import com.example.mazaady.presentation.detailScreen.LaunchDetailScreen
+import com.example.mazaady.presentation.favorites.FavoritesScreen
 import com.example.mazaady.presentation.listScreen.LaunchesListScreen
 @Composable
 fun LaunchesNavGraph(
@@ -26,8 +27,11 @@ fun LaunchesNavGraph(
                 onLaunchClick = { launchId ->
                     navController.navigate(Route.LaunchDetail.createRoute(launchId))
                 },
-                onBookingClick = { // NEW - Navigate to booking
+                onBookingClick = {
                     navController.navigate(Route.Booking.route)
+                },
+                onFavoritesClick = {
+                    navController.navigate(Route.Favorites.route)
                 }
             )
         }
@@ -53,6 +57,16 @@ fun LaunchesNavGraph(
         // Booking Screen - NEW
         composable(route = Route.Booking.route) {
             BookingScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(route = Route.Favorites.route) {
+            FavoritesScreen(
+                onLaunchClick = { launchId ->
+                    navController.navigate(Route.LaunchDetail.createRoute(launchId))
+                },
                 onBackClick = {
                     navController.popBackStack()
                 }

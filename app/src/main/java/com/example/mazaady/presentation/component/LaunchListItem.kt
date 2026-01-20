@@ -1,9 +1,15 @@
 package com.example.mazaady.presentation.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,16 +22,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mazaady.domain.model.Launch
 import com.example.mazaady.ui.theme.AppColors
-
 @Composable
 fun LaunchListItem(
     launch: Launch,
+    isFavorite: Boolean,
     backgroundColor: Color,
     titleColor: Color,
     subtitleColor: Color,
     onClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Log.e("LaunchListItem: ${launch.id}","###LaunchListItem recomposed")
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -62,53 +70,75 @@ fun LaunchListItem(
                 maxLines = 1
             )
         }
-    }
-}
 
-@Preview(name = "Launch Item Light", showBackground = true)
-@Composable
-private fun PreviewLaunchItemLight() {
-    Box(
-        modifier = Modifier.background(AppColors.LightBackground)
-            .padding(16.dp)
-    ) {
-        LaunchListItem(
-            launch = Launch(
-                id = "1",
-                site = "KSC LC 39A",
-                missionName = "Crew Dragon Demo-2",
-                missionPatch = null,
-                rocketName = "Falcon 9",
-                rocketType = "FT"
-            ),
-            backgroundColor = AppColors.LightSurface,
-            titleColor = AppColors.LightOnSurface,
-            subtitleColor = AppColors.LightOnSurfaceVariant,
-            onClick = {}
+        // Favorite Button - Isolated recomposition
+        FavoriteButton(
+            isFavorite = isFavorite,
+            subtitleColor = subtitleColor,
+            onClick = onFavoriteClick
         )
     }
 }
 
-@Preview(name = "Launch Item Dark", showBackground = true, backgroundColor = 0xFF1C1C1E)
+/**
+ * OPTIMIZATION: Separate composable for favorite button
+ * Only this recomposes when favorite state changes
+ */
 @Composable
-private fun PreviewLaunchItemDark() {
+private fun FavoriteButton(
+    isFavorite: Boolean,
+    subtitleColor: Color,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(40.dp)
+    ) {
+        Icon(
+            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+            tint = if (isFavorite) Color.Red else subtitleColor,
+            modifier = Modifier.size(24.dp)
+        )
+    }
+}
+
+@Preview(name = "Launch Item - Favorite", showBackground = true)
+@Composable
+private fun PreviewLaunchItemFavorite() {
     Box(
-        modifier = Modifier.background(AppColors.DarkBackground)
+        modifier = Modifier
+            .background(AppColors.LightBackground)
             .padding(16.dp)
     ) {
         LaunchListItem(
-            launch = Launch(
-                id = "1",
-                site = "KSC LC 39A",
-                missionName = "Starlink-15",
-                missionPatch = null,
-                rocketName = "Falcon 9",
-                rocketType = "FT"
-            ),
-            backgroundColor = AppColors.DarkSurface,
-            titleColor = AppColors.DarkOnSurface,
-            subtitleColor = AppColors.DarkOnSurfaceVariant,
-            onClick = {}
+            launch = Launch("1", "KSC LC 39A", "CRS-21", null, "Falcon 9", "FT"),
+            isFavorite = true,
+            backgroundColor = AppColors.LightSurface,
+            titleColor = AppColors.LightOnSurface,
+            subtitleColor = AppColors.LightOnSurfaceVariant,
+            onClick = {},
+            onFavoriteClick = {}
+        )
+    }
+}
+
+@Preview(name = "Launch Item - Not Favorite", showBackground = true)
+@Composable
+private fun PreviewLaunchItemNotFavorite() {
+    Box(
+        modifier = Modifier
+            .background(AppColors.LightBackground)
+            .padding(16.dp)
+    ) {
+        LaunchListItem(
+            launch = Launch("1", "KSC LC 39A", "CRS-21", null, "Falcon 9", "FT"),
+            isFavorite = false,
+            backgroundColor = AppColors.LightSurface,
+            titleColor = AppColors.LightOnSurface,
+            subtitleColor = AppColors.LightOnSurfaceVariant,
+            onClick = {},
+            onFavoriteClick = {}
         )
     }
 }
